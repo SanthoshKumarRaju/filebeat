@@ -1,7 +1,7 @@
 services:
-  filebeat:
+  filebeat-1:
     build:
-      context: FILEBEAT/
+      context: filebeat/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     # Run as 'root' instead of 'filebeat' (uid 1000) to allow reading
@@ -15,7 +15,7 @@ services:
       # see: https://www.elastic.co/guide/en/beats/libbeat/current/config-file-permissions.html
       - --strict.perms=false
     volumes:
-      - ./FILEBEAT/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro,Z
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro,Z
 
     environment:
       ELASTICSEARCH_HOST: 54.234.252.157:9200
