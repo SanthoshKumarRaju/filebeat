@@ -1,0 +1,29 @@
+services:
+  filebeat:
+    build:
+      context: FILEBEAT/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    # Run as 'root' instead of 'filebeat' (uid 1000) to allow reading
+    # 'docker.sock' and the host's filesystem.
+    user: root
+    command:
+      # Log to stderr.
+      - -e
+      # Disable config file permissions checks. Allows mounting
+      # 'config/filebeat.yml' even if it's not owned by root.
+      # see: https://www.elastic.co/guide/en/beats/libbeat/current/config-file-permissions.html
+      - --strict.perms=false
+    volumes:
+      - ./FILEBEAT/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro,Z
+
+    environment:
+      ELASTICSEARCH_HOST: 54.234.252.157:9200
+      LOGSTASH_HOST: 54.234.252.157:5044
+      FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+    networks:
+      - elk
+#    depends_on:
+#      - Docker-Swarm-Manager1
+#      - Docker-Swarm-Worker1
+#    restart: always
