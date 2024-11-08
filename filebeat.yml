@@ -1,0 +1,160 @@
+name: filebeat
+
+# Load Filebeat modules
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+# Configure log inputs for each service with distinct paths and service names
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/accounting-service/*.log"
+    fields:
+      service_name: "accounting-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/cstorebo-api-aws/*.log"
+    fields:
+      service_name: "cstorebo-api-aws"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/invoice-service/*.log"
+    fields:
+      service_name: "invoice-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/alottery-service/*.log"
+    fields:
+      service_name: "lottery-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/pyaltria-integration/*.log"
+    fields:
+      service_name: "pyaltria-integration"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/pyitem-service/*.log"
+    fields:
+      service_name: "pyitem-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/report-service/*.log"
+    fields:
+      service_name: "report-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/setup-service/*.log"
+    fields:
+      service_name: "setup-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/auth-service/*.log"
+    fields:
+      service_name: "auth-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/fuel-service/*.log"
+    fields:
+      service_name: "fuel-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/item-service/*.log"
+    fields:
+      service_name: "item-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/pyaccount-service/*.log"
+    fields:
+       service_name: "pyaccount-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/pyfuel-service/*.log"
+    fields:
+      service_name: "pyfuel-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/pysetup-service/*.log"
+    fields:
+      service_name: "pysetup-service"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/scandata/*.log"
+    fields:
+      service_name: "scandata"
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - "home/ubuntu/logs/syncdata-service/*.log"
+    fields:
+      service_name: "syncdata-service"
+    fields_under_root: true
+
+# Output configuration to send logs to Logstash
+output.logstash:
+  hosts: ["54.234.252.157:5044"]
+
+# Enable monitoring for Filebeat
+monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["54.234.252.157:9200"]
+    username: filebeat_internal
+    password: ${FILEBEAT_INTERNAL_PASSWORD}
+
+# Uncomment the following if you want to output directly to Elasticsearch in addition to Logstash
+# output.elasticsearch:
+#   hosts: ["54.234.252.157:9200"]
+#   username: filebeat_internal
+#   password: ${FILEBEAT_INTERNAL_PASSWORD}
+
+# Enable HTTP endpoint for health check and debugging
+http:
+  enabled: true
+  host: 0.0.0.0
