@@ -15,7 +15,7 @@ services:
       # see: https://www.elastic.co/guide/en/beats/libbeat/current/config-file-permissions.html
       - --strict.perms=false
     volumes:
-      - ./filebeat-1/config/filebeat.yml:/usr/share/filebeat-1/filebeat.yml:ro,Z
+      - ./filebeat/filebeat.yml:/usr/share/filebeat-1/filebeat.yml:ro,Z
 
     environment:
       ELASTICSEARCH_HOST: 54.234.252.157:9200
