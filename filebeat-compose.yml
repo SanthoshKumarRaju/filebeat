@@ -1,7 +1,7 @@
 services:
-  filebeat-1:
+  filebeat:
     build:
-      context: filebeat/
+      context: ./
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     # Run as 'root' instead of 'filebeat' (uid 1000) to allow reading
@@ -15,14 +15,14 @@ services:
       # see: https://www.elastic.co/guide/en/beats/libbeat/current/config-file-permissions.html
       - --strict.perms=false
     volumes:
-      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro,Z
+      - ./filebeat-1/config/filebeat.yml:/usr/share/filebeat-1/filebeat.yml:ro,Z
 
     environment:
       ELASTICSEARCH_HOST: 54.234.252.157:9200
       LOGSTASH_HOST: 54.234.252.157:5044
       FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
-    networks:
-      - elk
+        #    networks:
+        #      - elk
 #    depends_on:
 #      - Docker-Swarm-Manager1
 #      - Docker-Swarm-Worker1
